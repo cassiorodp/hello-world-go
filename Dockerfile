@@ -1,4 +1,3 @@
-# Estágio de Compilação
 FROM golang:alpine AS builder
 
 RUN apk add --no-cache upx
@@ -10,7 +9,6 @@ RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o fullcycle main.go
 
 RUN upx --best fullcycle
 
-# Estágio Final
 FROM scratch
 COPY --from=builder /app/fullcycle /fullcycle
 ENTRYPOINT ["/fullcycle"]
